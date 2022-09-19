@@ -1,0 +1,132 @@
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+
+class Person {
+private:
+	string name, password;
+	int id;
+public:
+	//setters
+	void Setname(string n) {
+		if (n.size() < 5 || n.size() > 20) {
+			cout << "Enter correct name .";
+		}
+		else
+			name = n;
+	}
+	void Setid(int i) {
+		id = i;
+	}
+	void Setpassword(string p) {
+		if (p.size() < 8 || p.size() > 20) {
+			cout << "Enter correct password .";
+		}
+		else
+			password = p;
+	}
+	//getters
+	string Getname() {
+		return name;
+	}
+	string Getpassword() {
+		return password;
+	}
+	int Getid() {
+		return id;
+	}
+	void display() {
+		cout << "Name: " << name << endl << "Password: " << password << endl << "ID: " << id << endl;
+	}
+	Person(string n, string p, int i) {
+		name = n;
+		password = p;
+		id = i;
+	}
+};
+
+class Client :public Person {
+private:
+	double balance;
+public:
+	Client(string n, string p, int i, int b): Person(n,p,i) {
+		balance = b;
+	}
+	void Setbalnce(double b) {
+		if (b < 1500) {
+			cout << "Enter correct balance ";
+		}
+		else
+			balance = b;
+	}
+	double Getbalance() {
+		return balance;
+	}
+
+	void deposit(double d) {
+		balance += d;
+	}
+	void withdraw(double w) {
+		if (w < balance) {
+			balance -= w;
+		}
+		else
+			cout << "can't withdraw this amount.";
+	}
+	void checkbalance() {
+		cout << "Balance= " << balance;
+	}
+	void transferto(Client c, int a) {
+		if (a < balance) {
+			balance -= a;
+			c.balance+=a;
+		}
+		else
+			cout << "Can't transfer this amount ";
+	}
+	void display() {
+		Person::display();
+		cout << "Balance= " << balance;
+	}
+};
+
+class Employee :public Person {
+private:
+	double salary;
+public:
+	Employee(string n, string p, int i, int s) : Person(n, p, i) {
+		salary = s;
+	}
+	void Setsalary(double s) {
+		if (s < 5000) {
+			cout << "Enter correct salary ";
+		}
+		else
+			salary = s;
+	}
+	double Getsalary() {
+		return salary;
+	}
+	void display() {
+		Person::display();
+			cout << "Salary: " << salary;
+	}
+};
+
+class Admin :public Employee {
+
+};
+
+
+int main() {
+	Client cl("omarhafez", "123456789", 123, 6000),cl2("mohamed","abcdefghi",987,9000);
+	cl.deposit(200);
+	cout<< endl << "New balance: " << cl.Getbalance() << endl << endl;
+	cl2.transferto(cl, 1000);
+	cl.display(); 
+	cout << endl<<endl<<endl;
+	cl2.display();
+}
